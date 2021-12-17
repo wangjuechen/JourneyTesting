@@ -2,6 +2,8 @@ package com.jc.android.journeytesting.utils.module
 
 import android.content.Context
 import com.jc.android.journeytesting.BaseApplication
+import com.jc.android.journeytesting.data.PostRepository
+import com.jc.android.journeytesting.data.local.PostLocalDataCache
 import com.jc.android.journeytesting.data.remote.JSONPlaceholderService
 import com.jc.android.journeytesting.utils.Constants
 import dagger.Module
@@ -12,6 +14,7 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
 import java.io.File
 import javax.inject.Singleton
 
@@ -32,6 +35,7 @@ class NetworkModule {
     @Singleton
     fun provideRetrofit(client: OkHttpClient): Retrofit {
         return Retrofit.Builder().baseUrl(Constants.BASE_URL).client(client)
+            .addConverterFactory(MoshiConverterFactory.create())
             .build()
     }
 
@@ -64,4 +68,15 @@ class NetworkModule {
     fun provideJSONPlaceholderService(retrofit: Retrofit): JSONPlaceholderService {
         return retrofit.create(JSONPlaceholderService::class.java)
     }
+
+    @Provides
+    @Singleton
+    fun providePostLocalDataCache() = PostLocalDataCache()
+
+    @Provides
+    @Singleton
+    fun providePostRepository(
+        apiService: JSONPlaceholderService,
+        postLocalDataCache: PostLocalDataCache
+    ) = PostRepository(apiService, postLocalDataCache)
 }

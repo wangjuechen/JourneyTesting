@@ -6,8 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.jc.android.journeytesting.databinding.MainFragmentBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class PostListFragment : Fragment() {
 
     private val postListViewModel: PostListViewModel by viewModels()
@@ -27,6 +30,9 @@ class PostListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.postListRecyclerView.adapter = postListAdapter
+        binding.postListRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL ,false)
 
         postListViewModel.postListLiveData.observe(viewLifecycleOwner) { postList ->
             postListAdapter.setData(postList)

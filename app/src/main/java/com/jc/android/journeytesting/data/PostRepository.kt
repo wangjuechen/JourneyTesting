@@ -10,7 +10,7 @@ class PostRepository @Inject constructor(
     private val apiService: JSONPlaceholderService,
     private val postLocalDataCache: PostLocalDataCache
 ) {
-    suspend fun getAllPosts(): List<Post> {
+    suspend fun getAllPosts(): List<Post>? {
         //TODO: fetch cached data first if any
         return apiService.getAllPosts().body()
     }
