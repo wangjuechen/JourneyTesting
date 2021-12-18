@@ -14,9 +14,4 @@ class PostRepository @Inject constructor(
         //TODO: fetch cached data first if any
         return apiService.getAllPosts().body()
     }
-
-    suspend fun getCommentsByPost(postId: String): List<Comment>? {
-        //TODO: fetch from cached data if any
-        return apiService.getCommentsByPost(postId).body()
-    }
 }

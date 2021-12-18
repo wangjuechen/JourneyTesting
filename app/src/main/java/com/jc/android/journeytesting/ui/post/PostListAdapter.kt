@@ -9,6 +9,7 @@ import com.jc.android.journeytesting.domain.Post
 
 class PostListAdapter : RecyclerView.Adapter<PostListAdapter.ViewHolder>() {
     private var postList: List<Post> = emptyList()
+    private lateinit var selectListener: PostListItemListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
@@ -17,17 +18,27 @@ class PostListAdapter : RecyclerView.Adapter<PostListAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.postListItemBinding.postTitle.text = postList[position].title
-        holder.postListItemBinding.postBody.text = postList[position].body
+        holder.postListItemBinding.apply {
+            postTitle.text = postList[position].title
+            postBody.text = postList[position].body
+            root.setOnClickListener {
+                selectListener.postItemSelected(postId = postList[position].id)
+            }
+        }
     }
 
     override fun getItemCount(): Int = postList.size
 
-    fun setData(dataList: List<Post>) {
+    fun setData(dataList: List<Post>, postListItemListener: PostListItemListener) {
         this.postList = dataList
+        this.selectListener = postListItemListener
         notifyDataSetChanged()
     }
 
     class ViewHolder(val postListItemBinding: PostListItemBinding) :
         RecyclerView.ViewHolder(postListItemBinding.root)
+}
+
+interface PostListItemListener {
+    fun postItemSelected(postId: String)
 }

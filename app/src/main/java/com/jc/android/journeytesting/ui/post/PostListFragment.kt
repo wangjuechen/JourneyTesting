@@ -6,12 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.jc.android.journeytesting.R
 import com.jc.android.journeytesting.databinding.MainFragmentBinding
+import com.jc.android.journeytesting.ui.comment.CommentsFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class PostListFragment : Fragment() {
+class PostListFragment : Fragment(), PostListItemListener {
 
     private val postListViewModel: PostListViewModel by viewModels()
     private val postListAdapter = PostListAdapter()
@@ -31,11 +34,14 @@ class PostListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.postListRecyclerView.adapter = postListAdapter
-        binding.postListRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL ,false)
+        binding.postListRecyclerView.apply {
+            adapter = postListAdapter
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL ,false)
+            addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL))
+        }
 
         postListViewModel.postListLiveData.observe(viewLifecycleOwner) { postList ->
-            postListAdapter.setData(postList)
+            postListAdapter.setData(postList, this)
         }
     }
 
@@ -46,5 +52,13 @@ class PostListFragment : Fragment() {
 
     companion object {
         fun newInstance() = PostListFragment()
+    }
+
+    override fun postItemSelected(postId: String) {
+        val commentsFragment = CommentsFragment()
+        val args = Bundle()
+        args.putString("postId", postId);
+        commentsFragment.arguments = args
+        activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.container, commentsFragment, "commentsFragment")?.commit()
     }
 }
