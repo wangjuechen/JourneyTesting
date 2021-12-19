@@ -23,9 +23,8 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        app:layout_constraintStart_toEndOf="@id/commentName"
-        app:layout_constraintBottom_toBottomOf="@id/commentName"
-        app:layout_constraintTop_toTopOf="@id/commentName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/commentName"
         tools:text="JC.Wang@gmail.com" />
 
     <TextView
@@ -38,7 +37,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/commentName"
+        app:layout_constraintTop_toBottomOf="@+id/commentEmail"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:text="LMAO!" />
 

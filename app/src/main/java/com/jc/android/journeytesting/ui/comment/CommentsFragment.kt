@@ -9,7 +9,9 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jc.android.journeytesting.databinding.CommentsFragmentBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CommentsFragment : Fragment() {
 
     private var _binding: CommentsFragmentBinding? = null
@@ -30,7 +32,7 @@ class CommentsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        commentViewModel.postId.value = this.arguments?.getString("postId")
+        commentViewModel.postId = this.arguments?.getString("postId")
 
         binding.commentsListRecyclerView.apply {
             adapter = commentsListAdapter
@@ -39,6 +41,7 @@ class CommentsFragment : Fragment() {
             addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL))
         }
 
+        commentViewModel.setupCommentListLiveData()
         commentViewModel.commentListLiveData.observe(viewLifecycleOwner) { commentList ->
             commentsListAdapter.setData(commentList ?: emptyList())
         }

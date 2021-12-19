@@ -3,8 +3,10 @@ package com.jc.android.journeytesting.utils.module
 import android.content.Context
 import com.jc.android.journeytesting.BaseApplication
 import com.jc.android.journeytesting.data.PostRepository
+import com.jc.android.journeytesting.data.local.AppDatabase
 import com.jc.android.journeytesting.data.local.PostLocalDataCache
 import com.jc.android.journeytesting.data.remote.JSONPlaceholderService
+import com.jc.android.journeytesting.data.remote.PostRemoteDataSource
 import com.jc.android.journeytesting.utils.Constants
 import dagger.Module
 import dagger.Provides
@@ -71,12 +73,8 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun providePostLocalDataCache() = PostLocalDataCache()
-
-    @Provides
-    @Singleton
     fun providePostRepository(
-        apiService: JSONPlaceholderService,
+        postRemoteDataSource: PostRemoteDataSource,
         postLocalDataCache: PostLocalDataCache
-    ) = PostRepository(apiService, postLocalDataCache)
+    ) = PostRepository(postRemoteDataSource, postLocalDataCache)
 }

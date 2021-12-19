@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.jc.android.journeytesting.R
 import com.jc.android.journeytesting.databinding.MainFragmentBinding
 import com.jc.android.journeytesting.ui.comment.CommentsFragment
+import com.jc.android.journeytesting.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -40,8 +42,18 @@ class PostListFragment : Fragment(), PostListItemListener {
             addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL))
         }
 
-        postListViewModel.postListLiveData.observe(viewLifecycleOwner) { postList ->
-            postListAdapter.setData(postList, this)
+        postListViewModel.postListLiveData.observe(viewLifecycleOwner) {
+            when (it.status) {
+                Resource.Status.SUCCESS -> {
+                    binding.progressBar.visibility = View.GONE
+                    if (!it.data.isNullOrEmpty()) postListAdapter.setData(it.data, this)
+                }
+                Resource.Status.ERROR ->
+                    Toast.makeText(activity, it.message, Toast.LENGTH_SHORT).show()
+
+                Resource.Status.LOADING ->
+                    binding.progressBar.visibility = View.VISIBLE
+            }
         }
     }
 

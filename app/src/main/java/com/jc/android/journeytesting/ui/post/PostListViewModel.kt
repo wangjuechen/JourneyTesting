@@ -1,12 +1,13 @@
 package com.jc.android.journeytesting.ui.post
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.jc.android.journeytesting.data.PostRepository
 import com.jc.android.journeytesting.domain.Post
+import com.jc.android.journeytesting.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
+import retrofit2.Response
 import javax.inject.Inject
 
 @HiltViewModel
@@ -14,16 +15,14 @@ class PostListViewModel @Inject constructor(
     private val postRepository: PostRepository
 ) : ViewModel() {
 
-    val postListLiveData = MutableLiveData<List<Post>>()
+    lateinit var postListLiveData: LiveData<Resource<List<Post>>>
 
     init {
         setupPostListLiveData()
     }
 
     private fun setupPostListLiveData() {
-        viewModelScope.launch {
-            postListLiveData.postValue(postRepository.getAllPosts())
-        }
+        postListLiveData = postRepository.getAllPosts()
     }
 
 }

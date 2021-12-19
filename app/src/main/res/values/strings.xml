@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">JourneyTesting</string>
+    <string name="post_user">Posted by: %s</string>
 </resources>

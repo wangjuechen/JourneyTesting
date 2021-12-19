@@ -14,9 +14,21 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/postBody"
+        app:layout_constraintTop_toBottomOf="@id/postUser"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="title" />
+
+    <TextView
+        android:id="@+id/postUser"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="8dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/postTitle"
+        tools:text="Posted by JC" />
 
     <TextView
         android:id="@+id/postBody"
@@ -28,7 +40,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/postTitle"
+        app:layout_constraintTop_toBottomOf="@+id/postUser"
         tools:text="body" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
