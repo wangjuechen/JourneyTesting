@@ -7,7 +7,6 @@ import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.jc.android.journeytesting.databinding.CommentListItemBinding
 import com.jc.android.journeytesting.domain.Comment
-import com.jc.android.journeytesting.ui.post.PostAndComments
 
 class CommentListAdapter : RecyclerView.Adapter<CommentListAdapter.ViewHolder>(), Filterable {
 
@@ -21,9 +20,12 @@ class CommentListAdapter : RecyclerView.Adapter<CommentListAdapter.ViewHolder>()
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.commentListItemBinding.commentName.text = commentListFiltered[position].name
-        holder.commentListItemBinding.commentEmail.text = commentListFiltered[position].email
-        holder.commentListItemBinding.commentBody.text = commentListFiltered[position].body
+        val comment = commentListFiltered[position]
+        holder.commentListItemBinding.apply {
+            commentName.text = comment.name
+            commentEmail.text = comment.email
+            commentBody.text = comment.body
+        }
     }
 
     override fun getItemCount() = commentListFiltered.size
@@ -61,7 +63,7 @@ class CommentListAdapter : RecyclerView.Adapter<CommentListAdapter.ViewHolder>()
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
                 commentListFiltered = if (results?.values == null) {
-                    ArrayList()
+                    mutableListOf()
                 } else {
                     results.values as ArrayList<Comment>
                 }

@@ -2,9 +2,11 @@ package com.jc.android.journeytesting.utils.module
 
 import android.content.Context
 import com.jc.android.journeytesting.BaseApplication
+import com.jc.android.journeytesting.data.CommentRepository
 import com.jc.android.journeytesting.data.PostRepository
-import com.jc.android.journeytesting.data.local.AppDatabase
+import com.jc.android.journeytesting.data.local.CommentLocalDataCache
 import com.jc.android.journeytesting.data.local.PostLocalDataCache
+import com.jc.android.journeytesting.data.remote.CommentRemoteDataSource
 import com.jc.android.journeytesting.data.remote.JSONPlaceholderService
 import com.jc.android.journeytesting.data.remote.PostRemoteDataSource
 import com.jc.android.journeytesting.utils.Constants
@@ -77,4 +79,11 @@ class NetworkModule {
         postRemoteDataSource: PostRemoteDataSource,
         postLocalDataCache: PostLocalDataCache
     ) = PostRepository(postRemoteDataSource, postLocalDataCache)
+
+    @Provides
+    @Singleton
+    fun provideCommentRepository(
+        commentRemoteDataSource: CommentRemoteDataSource,
+        commentLocalDataCache: CommentLocalDataCache
+    ) = CommentRepository(commentRemoteDataSource, commentLocalDataCache)
 }
