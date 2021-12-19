@@ -1,19 +1,15 @@
 package com.jc.android.journeytesting.ui.comment
 
-import android.app.ActionBar
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jc.android.journeytesting.databinding.CommentsFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
-import androidx.appcompat.app.AppCompatActivity
 import com.jc.android.journeytesting.R
 
 
@@ -65,6 +61,20 @@ class CommentsFragment : Fragment() {
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu, menu)
+
+        val searchView = menu.findItem(R.id.search).actionView as SearchView
+        setupSearchView(searchView)
+
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
@@ -73,5 +83,23 @@ class CommentsFragment : Fragment() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun setupSearchView(searchView: SearchView) {
+        searchView.apply {
+            queryHint = getString(R.string.search_comment_hint)
+            isIconifiedByDefault = false
+            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    commentsListAdapter.filter.filter(query)
+                    return false
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    commentsListAdapter.filter.filter(newText)
+                    return false
+                }
+            })
+        }
     }
 }

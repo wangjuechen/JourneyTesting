@@ -13,5 +13,8 @@ interface JSONPlaceholderService {
     suspend fun getAllPosts(): Response<List<Post>>
 
     @GET("/comments")
+    suspend fun getAllComments(): Response<List<Comment>>
+
+    @GET("/comments")
     suspend fun getCommentsByPost(@Query("postId") postId: String): Response<List<Comment>?>
 }

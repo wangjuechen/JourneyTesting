@@ -45,12 +45,13 @@ class PostListFragment : Fragment(), PostListItemListener {
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
-            val dividerItemDecoration = DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL)
+            val dividerItemDecoration =
+                DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL)
             dividerItemDecoration.setDrawable(context.getDrawable(R.drawable.recycler_view_divider)!!)
             addItemDecoration(dividerItemDecoration)
         }
 
-        postListViewModel.postListLiveData.observe(viewLifecycleOwner) {
+        postListViewModel.postAndCommentsMediatorLiveData.observe(viewLifecycleOwner) {
             when (it.status) {
                 Resource.Status.SUCCESS -> {
                     binding.progressBar.visibility = View.GONE
@@ -86,7 +87,7 @@ class PostListFragment : Fragment(), PostListItemListener {
 
     private fun setupSearchView(searchView: SearchView) {
         searchView.apply {
-            queryHint = getString(R.string.search_hint)
+            queryHint = getString(R.string.search_post_hint)
             isIconifiedByDefault = false
             setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
@@ -102,3 +103,4 @@ class PostListFragment : Fragment(), PostListItemListener {
         }
     }
 }
+

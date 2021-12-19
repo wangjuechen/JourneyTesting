@@ -4,16 +4,19 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.jc.android.journeytesting.domain.Comment
 import com.jc.android.journeytesting.domain.Post
 
 @Database(
-    entities = [Post::class],
-    version = 1,
+    entities = [Post::class, Comment::class],
+    version = 2,
     exportSchema = false
 )
 abstract class AppDatabase: RoomDatabase()  {
 
     abstract fun postDao(): PostDao
+    abstract fun commentDao(): CommentDao
+
 
     companion object {
         @Volatile

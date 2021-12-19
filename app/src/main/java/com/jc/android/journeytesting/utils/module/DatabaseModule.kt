@@ -2,6 +2,7 @@ package com.jc.android.journeytesting.utils.module
 
 import android.content.Context
 import com.jc.android.journeytesting.data.local.AppDatabase
+import com.jc.android.journeytesting.data.local.CommentLocalDataCache
 import com.jc.android.journeytesting.data.local.PostLocalDataCache
 import dagger.Module
 import dagger.Provides
@@ -22,8 +23,16 @@ class DatabaseModule {
     @Provides
     fun providePostDatabase(@ApplicationContext appContext: Context) = AppDatabase.getDatabase(appContext)
 
+    @Provides
+    @Singleton
+    fun provideCommentLocalDataCache(db: AppDatabase) = CommentLocalDataCache(db)
 
     @Singleton
     @Provides
     fun providePostDao(db: AppDatabase) = db.postDao()
+
+    @Singleton
+    @Provides
+    fun provideCommentDao(db: AppDatabase) = db.commentDao()
 }
+

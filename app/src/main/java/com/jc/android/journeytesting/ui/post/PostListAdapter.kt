@@ -7,12 +7,11 @@ import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.jc.android.journeytesting.R
 import com.jc.android.journeytesting.databinding.PostListItemBinding
-import com.jc.android.journeytesting.domain.Post
 
 
 class PostListAdapter : RecyclerView.Adapter<PostListAdapter.ViewHolder>(), Filterable {
-    private var postList: List<Post> = emptyList()
-    private var postListFiltered: MutableList<Post> = mutableListOf()
+    private var postList: List<PostAndComments> = emptyList()
+    private var postListFiltered: MutableList<PostAndComments> = mutableListOf()
     private lateinit var selectListener: PostListItemListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -28,6 +27,7 @@ class PostListAdapter : RecyclerView.Adapter<PostListAdapter.ViewHolder>(), Filt
             postTitle.text = post.title
             postUser.text = holder.itemView.context.getString(R.string.post_user, post.userId)
             postBody.text = post.body
+            commentsNumber.text = holder.itemView.resources.getQuantityString(R.plurals.comments_amount, post.numOfComments, post.numOfComments)
             root.setOnClickListener {
                 selectListener.postItemSelected(postId = post.id)
             }
@@ -36,7 +36,7 @@ class PostListAdapter : RecyclerView.Adapter<PostListAdapter.ViewHolder>(), Filt
 
     override fun getItemCount(): Int = postListFiltered.size
 
-    fun setData(dataList: List<Post>, postListItemListener: PostListItemListener) {
+    fun setData(dataList: List<PostAndComments>, postListItemListener: PostListItemListener) {
         this.postList = dataList
         postListFiltered = postList.toMutableList()
         this.selectListener = postListItemListener
@@ -54,7 +54,7 @@ class PostListAdapter : RecyclerView.Adapter<PostListAdapter.ViewHolder>(), Filt
                 if (charString.isEmpty()) {
                     postListFiltered = postList.toMutableList()
                 } else {
-                    val filteredList = ArrayList<Post>()
+                    val filteredList = ArrayList<PostAndComments>()
                     for (post in postList) {
                         if ((post.body?.contains(
                                 charString,
@@ -74,7 +74,7 @@ class PostListAdapter : RecyclerView.Adapter<PostListAdapter.ViewHolder>(), Filt
                 postListFiltered = if (results?.values == null) {
                     ArrayList()
                 } else {
-                    results.values as ArrayList<Post>
+                    results.values as ArrayList<PostAndComments>
                 }
                 notifyDataSetChanged()
             }
@@ -85,3 +85,4 @@ class PostListAdapter : RecyclerView.Adapter<PostListAdapter.ViewHolder>(), Filt
 interface PostListItemListener {
     fun postItemSelected(postId: String)
 }
+

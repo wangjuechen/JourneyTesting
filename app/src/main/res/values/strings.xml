@@ -3,7 +3,15 @@
 
     <string name="post_user">Posted by: %s</string>
 
-    <string name="search_hint">Search Post</string>
+    <string name="search_post_hint">Search Post</string>
+    <string name="search_comment_hint">Search Comment</string>
     <string name="search_menu_title">Search</string>
+
     <string name="bullet_points">•</string>
+
+    <plurals name="comments_amount">
+        <item quantity="one">%d comment</item>
+        <item quantity="other">%d comments</item>
+    </plurals>
 </resources>
+
