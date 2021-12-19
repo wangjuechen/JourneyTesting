@@ -17,6 +17,7 @@ class PostListViewModel @Inject constructor(
 
     lateinit var postListLiveData: LiveData<Resource<List<Post>>>
 
+
     init {
         setupPostListLiveData()
     }

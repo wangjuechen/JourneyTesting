@@ -12,6 +12,7 @@ import javax.inject.Inject
 class CommentViewModel @Inject constructor(
     private val commentRepository: CommentRepository
 ) : ViewModel() {
+
     var postId: String? = null
     val commentListLiveData = MutableLiveData<List<Comment>?>()
 

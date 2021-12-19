@@ -1,15 +1,15 @@
 package com.jc.android.journeytesting.ui.post
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.jc.android.journeytesting.R
 import com.jc.android.journeytesting.databinding.MainFragmentBinding
 import com.jc.android.journeytesting.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,6 +22,11 @@ class PostListFragment : Fragment(), PostListItemListener {
 
     private var _binding: MainFragmentBinding? = null
     private val binding get() = _binding!!
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,7 +44,10 @@ class PostListFragment : Fragment(), PostListItemListener {
             adapter = postListAdapter
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-            addItemDecoration(DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL))
+
+            val dividerItemDecoration = DividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL)
+            dividerItemDecoration.setDrawable(context.getDrawable(R.drawable.recycler_view_divider)!!)
+            addItemDecoration(dividerItemDecoration)
         }
 
         postListViewModel.postListLiveData.observe(viewLifecycleOwner) {
@@ -62,8 +70,35 @@ class PostListFragment : Fragment(), PostListItemListener {
         _binding = null
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu, menu)
+
+        val searchView = menu.findItem(R.id.search).actionView as SearchView
+        setupSearchView(searchView)
+
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
     override fun postItemSelected(postId: String) {
         val action = PostListFragmentDirections.actionPostListFragmentToCommentsFragment(postId)
         findNavController().navigate(action)
+    }
+
+    private fun setupSearchView(searchView: SearchView) {
+        searchView.apply {
+            queryHint = getString(R.string.search_hint)
+            isIconifiedByDefault = false
+            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    postListAdapter.filter.filter(query)
+                    return false
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    postListAdapter.filter.filter(newText)
+                    return false
+                }
+            })
+        }
     }
 }

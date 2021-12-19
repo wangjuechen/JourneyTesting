@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/postListFragment"
         android:name="com.jc.android.journeytesting.ui.post.PostListFragment"
-        android:label="fragment_post_list"
+        android:label="@string/app_name"
         tools:layout="@layout/main_fragment">
 
         <action
@@ -21,7 +21,7 @@
     <fragment
         android:id="@+id/commentsFragment"
         android:name="com.jc.android.journeytesting.ui.comment.CommentsFragment"
-        android:label="fragment_comment_list"
+        android:label="Comments"
         tools:layout="@layout/comments_fragment">
 
         <argument

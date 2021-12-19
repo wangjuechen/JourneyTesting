@@ -20,15 +20,36 @@
 
     <TextView
         android:id="@+id/postUser"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="8dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/postTitle"
         tools:text="Posted by JC" />
+
+    <TextView
+        android:id="@+id/combineSymbol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginTop="8dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:text="@string/bullet_points"
+        app:layout_constraintStart_toEndOf="@id/postUser"
+        app:layout_constraintTop_toBottomOf="@id/postTitle" />
+
+    <TextView
+        android:id="@+id/comments_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginTop="8dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        app:layout_constraintStart_toEndOf="@id/combineSymbol"
+        app:layout_constraintTop_toBottomOf="@id/postTitle"
+        tools:text="12 comments"/>
 
     <TextView
         android:id="@+id/postBody"
@@ -36,11 +57,12 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="16dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/postUser"
+        app:layout_constraintBottom_toBottomOf="parent"
         tools:text="body" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

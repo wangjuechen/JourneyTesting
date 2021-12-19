@@ -9,6 +9,7 @@ class PostRepository @Inject constructor(
     private val postRemoteDataSource: PostRemoteDataSource,
     private val postLocalDataCache: PostLocalDataCache
 ) : BaseDataSource() {
+
     fun getAllPosts() = performGetOperation(
         databaseQuery = { postLocalDataCache.getAllLocalPostsData() },
         networkCall = { postRemoteDataSource.getAllPosts() },
