@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/app_navigation.xml"
+    app:startDestination="@id/postListFragment">
+
+    <fragment
+        android:id="@+id/postListFragment"
+        android:name="com.jc.android.journeytesting.ui.post.PostListFragment"
+        android:label="fragment_post_list"
+        tools:layout="@layout/main_fragment">
+
+        <action
+            android:id="@+id/action_postListFragment_to_commentsFragment"
+            app:destination="@id/commentsFragment">
+        </action>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/commentsFragment"
+        android:name="com.jc.android.journeytesting.ui.comment.CommentsFragment"
+        android:label="fragment_comment_list"
+        tools:layout="@layout/comments_fragment">
+
+        <argument
+            android:name="postId"
+            app:argType="string" />
+    </fragment>
+
+</navigation>

@@ -1,6 +1,7 @@
 package com.jc.android.journeytesting.ui.comment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,7 +33,13 @@ class CommentsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        commentViewModel.postId = this.arguments?.getString("postId")
+        val bundle = arguments
+        if (bundle == null) {
+            Log.e("Comments screen", "CommentsFragment did not receive post information")
+            return
+        }
+
+        commentViewModel.postId = CommentsFragmentArgs.fromBundle(bundle).postId
 
         binding.commentsListRecyclerView.apply {
             adapter = commentsListAdapter
